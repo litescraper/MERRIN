@@ -5,6 +5,7 @@ Provides a unified agent interface that works with different LLM backends
 """
 
 import json
+import os
 import time
 import asyncio
 from pathlib import Path
@@ -92,7 +93,7 @@ def search_images(query: str) -> str:
 
     try:
         resp = requests.post(
-            "https://google.serper.dev/images",
+            f'{os.getenv("SERPER_BASE_URL", "https://google.serper.dev").rstrip("/")}/images',
             headers={
                 "X-API-KEY": os.environ.get("SERPER_API_KEY", ""),
                 "Content-Type": "application/json",
@@ -178,7 +179,7 @@ class CustomGoogleSearchTool(GoogleSearchTool):
                 if filter_year is not None:
                     payload["tbs"] = f"cdr:1,cd_min:01/01/{filter_year},cd_max:12/31/{filter_year}"
                 response = requests.post(
-                    "https://google.serper.dev/search",
+                    f'{os.getenv("SERPER_BASE_URL", "https://google.serper.dev").rstrip("/")}/search',
                     headers={"X-API-KEY": self.api_key, "Content-Type": "application/json"},
                     json=payload,
                     timeout=30,
@@ -252,7 +253,7 @@ def search_video(query: str) -> str:
         max_pages = 5
         for page_num in range(1, max_pages + 1):
             resp = requests.post(
-                "https://google.serper.dev/videos",
+                f'{os.getenv("SERPER_BASE_URL", "https://google.serper.dev").rstrip("/")}/videos',
                 headers=headers,
                 json={"q": query, "page": page_num},
                 timeout=30,

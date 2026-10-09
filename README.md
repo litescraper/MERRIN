@@ -208,3 +208,13 @@ If you find MERRIN useful, please cite our paper:
   journal={arXiv preprint arXiv:2604.13418}
 }
 ```
+
+
+## Serper-compatible endpoints
+
+Set `SERPER_BASE_URL` to a compatible API base (without `/search`) and use
+that provider's search API key in the existing Serper key configuration.
+The default remains `https://google.serper.dev`; trailing slashes are removed
+before appending the existing search route. Other Serper routes use the same
+base where present; the separate page-scraping endpoint is unchanged.
+Support any Serper.dev-compatible endpoint (like litescrape.com, serpbase.dev, serpensapi.org, and others).
